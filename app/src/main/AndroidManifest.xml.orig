@@ -22,7 +22,11 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+<<<<<<< Updated upstream
+                android:windowSoftInputModem="stateHidden|adjustResize"
+=======
                 android:windowSoftInputMode="stateHidden|adjustResize"
+>>>>>>> Stashed changes
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>

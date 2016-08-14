@@ -6,12 +6,14 @@ import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.media.Image;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,7 +24,7 @@ import android.widget.Toast;
 
 import org.json.JSONException;
 
-import java.net.MalformedURLException;
+import java.io.ByteArrayOutputStream;
 import java.net.URL;
 
 import io.chirp.sdk.CallbackRead;
@@ -40,7 +42,7 @@ public class MainActivity extends Activity {
     EditText message;
     private final String TAG="DEBUG";
     TextView result;
-
+    SharedPreferences sharedPreferences;
     private static final int RESULT_REQUEST_RECORD_AUDIO = 0;
 
     private static boolean play=true;
@@ -53,6 +55,17 @@ public class MainActivity extends Activity {
 
         context=getApplicationContext();
         send= (ImageButton)findViewById(com.combatientes.whismur.R.id.send);
+        sharedPreferences=getSharedPreferences("User details", MODE_PRIVATE);
+
+        /*Fab fab = (Fab) findViewById(R.id.fab);
+        View sheetView = findViewById(R.id.fab_sheet);
+        View overlay = findViewById(R.id.dim_overlay);
+        int sheetColor = getResources().getColor(R.color.fab_sheet_color);
+        int fabColor = getResources().getColor(R.color.fab_color);
+
+        // Initialize material sheet FAB
+        materialSheetFab = new MaterialSheetFab<>(fab, sheetView, overlay,
+                sheetColor, fabColor);*/
         //listen=(ImageButton)findViewById(com.combatientes.whismur.R.id.listen);
         result=(TextView)findViewById(R.id.result);
         try {
@@ -91,6 +104,14 @@ public class MainActivity extends Activity {
             }
         }
     }
+    /*@Override
+    public void onBackPressed() {
+        if (materialSheetFab.isSheetVisible()) {
+            materialSheetFab.hideSheet();
+        } else {
+            super.onBackPressed();
+        }
+    }*/
     private ChirpSDKListener chirpSDKListener = new ChirpSDKListener()
     {
         /*------------------------------------------------------------------------------
@@ -284,13 +305,36 @@ public class MainActivity extends Activity {
         URL url=null;
         try {
             url = new URL(s);
-        } catch (MalformedURLException e) {
+        } catch (Exception e) {
             Log.v("myApp", "bad url entered");
+            return false;
         }
         if (url == null)
             return false;
         else
             return true;
+    }
+   /* public byte[] extractBytes (String ImageName) throws IOException {
+        // open image
+        File imgPath = new File(ImageName);
+        BufferedImage bufferedImage = ImageIO.read(imgPath);
+
+        // get DataBufferBytes from Raster
+        WritableRaster raster = bufferedImage .getRaster();
+        DataBufferByte data   = (DataBufferByte) raster.getDataBuffer();
+
+        return ( data.getData() );
+    }*/
+    public String shareImage(Bitmap someImg){
+        String imgString = Base64.encodeToString(getBytesFromBitmap(someImg),
+                Base64.NO_WRAP);
+        return imgString;
+
+    }
+    public byte[] getBytesFromBitmap(Bitmap bitmap) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 70, stream);
+        return stream.toByteArray();
     }
 }
 
