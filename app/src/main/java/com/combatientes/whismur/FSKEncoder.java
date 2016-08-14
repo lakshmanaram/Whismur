@@ -6,10 +6,7 @@ import java.nio.ShortBuffer;
 public class FSKEncoder {
 
 	public interface FSKEncoderCallback {
-		/**
-		 * This method will be called every time there is new data encoded
-		 * @param newData
-		 */
+
 		public void encoded(byte[] pcm8, short[] pcm16);
 	}
 	
@@ -317,12 +314,6 @@ public class FSKEncoder {
 
 				mSignalLength++;
 
-				if (mConfig.channels == FSKConfig.CHANNELS_STEREO) {
-					mSignalPCM16.put(newData[i]);
-
-					mSignalLength++;
-				}
-
 				checkSignalBuffer();
 			}
 		}
@@ -333,13 +324,6 @@ public class FSKEncoder {
 				mSignalPCM16.put((short) 0);
 
 				mSignalLength++;
-
-				if (mConfig.channels == FSKConfig.CHANNELS_STEREO) {
-					mSignalPCM16.put((short) 0);
-
-					mSignalLength++;
-				}
-
 				checkSignalBuffer();
 			}
 		}

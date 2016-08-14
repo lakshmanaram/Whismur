@@ -298,6 +298,7 @@ public class MainActivity extends Activity {
             Intent i = new Intent(Intent.ACTION_VIEW, uri);
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(i);
+            finish();
         } catch (ActivityNotFoundException e) {
             Uri uri = Uri.parse(url);
             // Chrome is probably not installed
@@ -305,6 +306,7 @@ public class MainActivity extends Activity {
             Intent i = new Intent(Intent.ACTION_VIEW, uri);
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(i);
+            finish();
         }
     }
     boolean Url_check(String s){

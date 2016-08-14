@@ -251,14 +251,9 @@ public class FSKDecoder {
 		
 		synchronized (mSignal) {
 			short[] monoData;
-			
-			if (mConfig.channels == FSKConfig.CHANNELS_STEREO) {
-				monoData = convertToMono(data);
-			}
-			else {
+
 				monoData = data;
-			}
-			
+
 			if (mSignalEnd + monoData.length > mSignal.capacity()) {
 				//the buffer will overflow... attempt to trim data
 				

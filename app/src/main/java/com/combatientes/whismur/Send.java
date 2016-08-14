@@ -25,12 +25,13 @@ public class Send extends AppCompatActivity {
     JSONObject jsonObject;
     ChirpSDK chirpSDK;
     Context context;
-    protected int i= 0;
+    protected int i;
     static RippleBackground rippleBackground;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send);
+        i = 0;
         context=getApplicationContext();
         chirpSDK = new ChirpSDK(context,"ErnLh5hPX7GQGNOnX7OgYrT5N","LshAQXDH3JISYOsRoXlfWKUoAxloskvDpBj9YDG8Vq8xocwFfI");
         rippleBackground=(RippleBackground)findViewById(R.id.content);

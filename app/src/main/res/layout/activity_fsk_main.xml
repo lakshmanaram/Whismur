@@ -14,7 +14,7 @@
         android:selectAllOnFocus="true"
         android:textAlignment="center"
         android:focusable="true"
-        android:id="@+id/message"
+        android:id="@+id/fsktxt"
         android:text="Please enter text/link that you want to share"
         android:focusableInTouchMode="true"/>
 

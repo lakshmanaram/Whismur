@@ -43,6 +43,10 @@
         <activity android:name=".Send"/>
         <activity android:name=".fskMainActivity">
         </activity>
+        <activity android:name=".fskEncoder">
+        </activity>
+        <activity android:name=".fskDecoder">
+        </activity>
     </application>
 
 </manifest>

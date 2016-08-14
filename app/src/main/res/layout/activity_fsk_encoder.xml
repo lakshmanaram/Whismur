@@ -1,0 +1,28 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="10dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="10dp"
+                tools:context="com.combatientes.whismur.fskEncoder" >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:text="Sending data"
+        android:layout_height="wrap_content"
+        android:textSize="35dp"
+        android:id="@+id/sendingdata"
+        android:textColor="#000"
+        android:fontFamily="monospace"/>
+    <TextView
+        android:layout_below="@+id/sendingdata"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/result1"
+        android:text="@null"
+        android:textSize="20dp"
+         />
+
+</RelativeLayout>
