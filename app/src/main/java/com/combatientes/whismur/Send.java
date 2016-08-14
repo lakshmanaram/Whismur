@@ -25,6 +25,7 @@ public class Send extends AppCompatActivity {
     JSONObject jsonObject;
     ChirpSDK chirpSDK;
     Context context;
+    protected int i= 0;
     static RippleBackground rippleBackground;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,14 +100,27 @@ public class Send extends AppCompatActivity {
 
             @Override
             public void onCreateError(ChirpError chirpError) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(context, "Error encoding data, Try again", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                if (i >= 5) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(context, "Error encoding data, Try again", Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 Log.d(TAG, "onCreateError: " + chirpError.getMessage());
                 finish();
+                } else {
+                    i++;
+                    try {
+                        Intent inten = new Intent(getApplicationContext(), Send.class);
+                        inten.putExtra("message", sendText);
+                        startActivity(inten);
+                    }catch (Exception e){
+                        Toast.makeText(getApplicationContext(),"Unable to Send",Toast.LENGTH_LONG).show(); ;
+                        e.printStackTrace();
+                    }
+                    finish();
+                }
             }
         });
 

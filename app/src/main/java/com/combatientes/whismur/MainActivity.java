@@ -47,8 +47,11 @@ public class MainActivity extends Activity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(com.combatientes.whismur.R.layout.activity_main);
+
+        context=getApplicationContext();
         send= (ImageButton)findViewById(com.combatientes.whismur.R.id.send);
         //listen=(ImageButton)findViewById(com.combatientes.whismur.R.id.listen);
         result=(TextView)findViewById(R.id.result);
@@ -58,16 +61,13 @@ public class MainActivity extends Activity {
             String type = intent.getType();
 
             if (Intent.ACTION_SEND.equals(action) && type != null) {
-                if ("text/plain".equals(type)) {
                     handleSendText(intent); // Handle text being sent
-                }
             }
         }catch (Exception e){
             e.printStackTrace();
         }
         message=(EditText)findViewById(com.combatientes.whismur.R.id.message);
 
-        context=getApplicationContext();
         chirpSDK = new ChirpSDK(context,"ErnLh5hPX7GQGNOnX7OgYrT5N","LshAQXDH3JISYOsRoXlfWKUoAxloskvDpBj9YDG8Vq8xocwFfI");
 
         chirpSDK.setListener(chirpSDKListener);
@@ -80,7 +80,15 @@ public class MainActivity extends Activity {
     void handleSendText(Intent intent) {
         String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
         if (sharedText != null) {
-            // TODO: Share the given text or url
+
+            try {
+                Intent inten = new Intent(getApplicationContext(), Send.class);
+                inten.putExtra("message", sharedText);
+                startActivity(inten);
+            }catch (Exception e){
+                Toast.makeText(getApplicationContext(),"Unable to Send",Toast.LENGTH_LONG).show(); ;
+                e.printStackTrace();
+            }
         }
     }
     private ChirpSDKListener chirpSDKListener = new ChirpSDKListener()
@@ -146,7 +154,7 @@ public class MainActivity extends Activity {
                     intent.putExtra("message", message.getText().toString());
                     startActivity(intent);
                 }catch (Exception e){
-                    Toast.makeText(context,"Unable to Send",Toast.LENGTH_LONG) ;
+                    Toast.makeText(context,"Unable to Send",Toast.LENGTH_LONG).show();
                     e.printStackTrace();
                 }
             }
