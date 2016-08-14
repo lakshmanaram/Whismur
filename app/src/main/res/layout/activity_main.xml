@@ -5,6 +5,7 @@
     android:layout_width="fill_parent"
     tools:context="com.combatientes.whismur.MainActivity"
     android:layout_height="fill_parent"
+    android:id="@+id/lay"
     android:orientation="vertical" >
 
     <EditText
@@ -26,6 +27,15 @@
         android:id="@+id/send"
         android:layout_centerVertical="true"
         android:cropToPadding="false" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/aw"
+        android:background="#fff"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom|start"
+        android:id="@+id/fskbutton"/>
 
     <!--ImageButton
         android:layout_width="wrap_content"

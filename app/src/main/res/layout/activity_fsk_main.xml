@@ -1,0 +1,54 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    tools:context="com.combatientes.whismur.MainActivity"
+    android:layout_height="fill_parent"
+    android:id="@+id/lay"
+    android:orientation="vertical" >
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80sp"
+        android:selectAllOnFocus="true"
+        android:textAlignment="center"
+        android:focusable="true"
+        android:id="@+id/message"
+        android:text="Please enter text/link that you want to share"
+        android:focusableInTouchMode="true"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/share"
+        android:background="@null"
+        android:scaleType="fitStart"
+        android:id="@+id/share"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        />
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/listen"
+        android:background="@null"
+        android:padding="30dp"
+        android:layout_below="@+id/share"
+        android:scaleType="fitStart"
+        android:id="@+id/listen"
+        android:layout_centerHorizontal="true"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/result"
+        android:layout_below="@+id/share"
+
+        />
+
+
+</RelativeLayout>
+

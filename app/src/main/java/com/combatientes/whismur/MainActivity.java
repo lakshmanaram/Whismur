@@ -85,6 +85,15 @@ public class MainActivity extends Activity {
 
         chirpSDK.setListener(chirpSDKListener);
 
+        ImageButton fskbutton = (ImageButton) findViewById(R.id.fskbutton);
+        fskbutton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(),fskMainActivity.class);
+                startActivity(intent);
+            }
+        });
+
         send.setOnClickListener(Send);
 //        listen.setOnClickListener(Start);
 
