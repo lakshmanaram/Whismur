@@ -89,8 +89,7 @@ public class Send extends AppCompatActivity {
              * If a network error occurred whilst creating the chirp, generate an error.
              *----------------------------------------------------------------------------*/
             @Override
-            public void onCreateError(ChirpError chirpError)
-            {
+            public void onCreateError(ChirpError chirpError) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -103,5 +102,9 @@ public class Send extends AppCompatActivity {
 
     }
 
-
+    @Override
+    protected void onPause() {
+        super.onPause();
+        chirpSDK.stop();
+    }
 }

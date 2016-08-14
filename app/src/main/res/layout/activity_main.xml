@@ -25,14 +25,14 @@
         android:layout_centerVertical="true"
         android:cropToPadding="false" />
 
-    <ImageButton
+    <!--ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/stop"
         android:background="@null"
         android:layout_centerHorizontal="true"
         android:id="@+id/listen"
-        android:layout_below="@+id/send" />
+        android:layout_below="@+id/send" /-->
 
     <TextView
         android:layout_width="match_parent"

@@ -7,6 +7,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
@@ -32,7 +33,8 @@ import io.chirp.sdk.model.ChirpError;
 
 public class MainActivity extends Activity {
 
-    ImageButton send,listen;
+    ImageButton send;
+//    ImageButton listen;
     ChirpSDK chirpSDK;
     Context context;
     EditText message;
@@ -48,7 +50,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(com.combatientes.whismur.R.layout.activity_main);
         send= (ImageButton)findViewById(com.combatientes.whismur.R.id.send);
-        listen=(ImageButton)findViewById(com.combatientes.whismur.R.id.listen);
+        //listen=(ImageButton)findViewById(com.combatientes.whismur.R.id.listen);
         result=(TextView)findViewById(R.id.result);
         try {
             Intent intent = getIntent();
@@ -71,7 +73,7 @@ public class MainActivity extends Activity {
         chirpSDK.setListener(chirpSDKListener);
 
         send.setOnClickListener(Send);
-        listen.setOnClickListener(Start);
+//        listen.setOnClickListener(Start);
 
 
     }
@@ -114,24 +116,24 @@ public class MainActivity extends Activity {
         }
     };
 
-    OnClickListener Start=new OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if(play){
-                chirpSDK.stop();
-                listen.setImageResource(android.R.color.transparent);
-                listen.setBackground(getDrawable(com.combatientes.whismur.R.drawable.play));
-                play=false;
-            }
-            else{
-                chirpSDK.start();
-                listen.setImageResource(android.R.color.transparent);
-                listen.setBackground(getDrawable(com.combatientes.whismur.R.drawable.stop));
-                play=true;
-            }
-
-        }
-    };
+//    OnClickListener Start=new OnClickListener() {
+//        @Override
+//        public void onClick(View v) {
+//            if(play){
+//                chirpSDK.stop();
+//                listen.setImageResource(android.R.color.transparent);
+//                listen.setBackground(getDrawable(com.combatientes.whismur.R.drawable.play));
+//                play=false;
+//            }
+//            else{
+//                chirpSDK.start();
+//                listen.setImageResource(android.R.color.transparent);
+//                listen.setBackground(getDrawable(com.combatientes.whismur.R.drawable.stop));
+//                play=true;
+//            }
+//
+//        }
+//    };
 
 
 
