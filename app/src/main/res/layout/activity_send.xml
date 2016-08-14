@@ -6,7 +6,7 @@
     android:id="@+id/activity_play"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.combatientes.whismur.Play">
+    tools:context="com.combatientes.whismur.Send">
 
     <com.skyfishjy.library.RippleBackground
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -17,7 +17,7 @@
         app:rb_color="#0099CC"
         app:rb_radius="32dp"
         app:rb_rippleAmount="4"
-        app:rb_duration="3000"
+        app:rb_duration="2000"
         app:rb_scale="6">
         <ImageView
             android:layout_width="64dp"

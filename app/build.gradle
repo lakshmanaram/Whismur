@@ -5,12 +5,13 @@ android {
     buildToolsVersion "23.0.3"
 
     defaultConfig {
-        applicationId "com.combatientes.whismur"
+        applicationId "com.combatientes.arcode"
         minSdkVersion 21
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -18,12 +19,35 @@ android {
         }
     }
 }
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
 
 dependencies {
+    // The Chirp SDK library (ensure the version number matches your distribution):
+
+    // The following dependencies need adding:
+    
+
+
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'io.chirp.sdk:chirp-sdk-release:2.0.2@aar'
+    compile 'com.squareup.dagger:dagger:1.2.2'
+    compile 'com.squareup.dagger:dagger-compiler:1.2.2'
+    compile 'com.squareup.retrofit:retrofit:1.8.0'
+    compile 'com.squareup.okhttp:okhttp:2.1.+'
+    compile 'com.squareup.okhttp:okhttp-urlconnection:+'
+
+
+    compile 'com.fasterxml.jackson.core:jackson-annotations:2.1.2'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.1.2'
+    compile 'com.fasterxml.jackson.core:jackson-core:2.1.1'
+    compile 'joda-time:joda-time:2.3'
+    compile 'com.j256.ormlite:ormlite-core:4.48'
+    compile 'com.j256.ormlite:ormlite-android:4.48'
     compile 'com.skyfishjy.ripplebackground:library:1.0.1'
-    compile 'info.hoang8f:fbutton:1.0.5'
     compile 'com.android.support:appcompat-v7:23.3.0'
-    compile 'com.skyfishjy.ripplebackground:library:1.0.1'
     testCompile 'junit:junit:4.12'
 }

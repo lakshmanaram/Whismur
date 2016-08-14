@@ -1,60 +1,252 @@
 package com.combatientes.whismur;
 
+
+import android.Manifest;
+import android.app.Activity;
 import android.content.ActivityNotFoundException;
-import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
-import android.media.Image;
+import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import java.util.ArrayList;
+import org.json.JSONException;
 
-public class MainActivity extends AppCompatActivity {
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import io.chirp.sdk.CallbackRead;
+import io.chirp.sdk.ChirpSDK;
+import io.chirp.sdk.ChirpSDKListener;
+import io.chirp.sdk.model.Chirp;
+import io.chirp.sdk.model.ChirpError;
+
+public class MainActivity extends Activity {
+
+    ImageButton send,listen;
+    ChirpSDK chirpSDK;
+    Context context;
+    EditText message;
+    private final String TAG="DEBUG";
+    TextView result;
+
+    private static final int RESULT_REQUEST_RECORD_AUDIO = 0;
+
+    private static boolean play=true;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(com.combatientes.whismur.R.layout.activity_main);
+        send= (ImageButton)findViewById(com.combatientes.whismur.R.id.send);
+        listen=(ImageButton)findViewById(com.combatientes.whismur.R.id.listen);
+        result=(TextView)findViewById(R.id.result);
+        try {
+            Intent intent = getIntent();
+            String action = intent.getAction();
+            String type = intent.getType();
 
-        Intent intent = getIntent();
-        String action = intent.getAction();
-        String type = intent.getType();
-
-        if (Intent.ACTION_SEND.equals(action) && type != null) {
-            if ("text/plain".equals(type)) {
-                handleSendText(intent); // Handle text being sent
+            if (Intent.ACTION_SEND.equals(action) && type != null) {
+                if ("text/plain".equals(type)) {
+                    handleSendText(intent); // Handle text being sent
+                }
             }
+        }catch (Exception e){
+            e.printStackTrace();
         }
-    }
+        message=(EditText)findViewById(com.combatientes.whismur.R.id.message);
 
+        context=getApplicationContext();
+        chirpSDK = new ChirpSDK(context,"ErnLh5hPX7GQGNOnX7OgYrT5N","LshAQXDH3JISYOsRoXlfWKUoAxloskvDpBj9YDG8Vq8xocwFfI");
+
+        chirpSDK.setListener(chirpSDKListener);
+
+        send.setOnClickListener(Send);
+        listen.setOnClickListener(Start);
+
+
+    }
     void handleSendText(Intent intent) {
         String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
         if (sharedText != null) {
             // TODO: Share the given text or url
         }
     }
-    ImageButton record;
-    public void record(View v){
-        record=(ImageButton)findViewById(R.id.record);
-        record.setBackground(getDrawable(R.drawable.stop));
-    }
-    public void play(View view){
-        Intent intent=new Intent(getApplicationContext(),Play.class);
-        startActivity(intent);
-    }
-    public void openURL(View view){
-        EditText editText=(EditText)findViewById(R.id.url);
-        if(editText.getText()!=null){ openUrlInChrome(editText.getText().toString());return;}
-        else{
-            Log.d("openURL","null edittext");
+    private ChirpSDKListener chirpSDKListener = new ChirpSDKListener()
+    {
+        /*------------------------------------------------------------------------------
+         * onChirpHeard is triggered when a Chirp tone is received.
+         * Obtain the chirp's 10-character identifier with `getIdentifier`.
+         *----------------------------------------------------------------------------*/
+        @Override
+        public void onChirpHeard(Chirp chirp)
+        {
+            /*------------------------------------------------------------------------------
+             * We're encoding the properties of each gem within the identifier:
+             * Position, orientation, and colour.
+             *
+             * Create and display a new gem with these properties.
+             *----------------------------------------------------------------------------*/
+            final String gemId = chirp.getIdentifier();
+            Log.d(TAG, "Chirp heard: " + gemId);
+            readChirp(chirp);
+
         }
 
+        /*------------------------------------------------------------------------------
+         * onChirpError is triggered when an error occurs -- for example,
+         * authentication failure or muted device.
+         *
+         * See the documentation on ChirpError for possible error codes.
+         *----------------------------------------------------------------------------*/
+        @Override
+        public void onChirpError(ChirpError chirpError) {
+            Log.d(TAG, "Identifier received error: " + chirpError.getMessage());
+        }
+    };
+
+    OnClickListener Start=new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if(play){
+                chirpSDK.stop();
+                listen.setImageResource(android.R.color.transparent);
+                listen.setBackground(getDrawable(com.combatientes.whismur.R.drawable.play));
+                play=false;
+            }
+            else{
+                chirpSDK.start();
+                listen.setImageResource(android.R.color.transparent);
+                listen.setBackground(getDrawable(com.combatientes.whismur.R.drawable.stop));
+                play=true;
+            }
+
+        }
+    };
+
+
+
+    OnClickListener Send=new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (message.getText() != null) {
+                try {
+                    Intent intent = new Intent(context, Send.class);
+                    intent.putExtra("message", message.getText().toString());
+                    startActivity(intent);
+                }catch (Exception e){
+                    Toast.makeText(context,"Unable to Send",Toast.LENGTH_LONG) ;
+                    e.printStackTrace();
+                }
+            }
+        }
+    };
+
+
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.RECORD_AUDIO}, RESULT_REQUEST_RECORD_AUDIO);
+        }
+        else {
+            chirpSDK.start();
+        }
     }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case RESULT_REQUEST_RECORD_AUDIO: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    chirpSDK.start();
+                }
+                return;
+            }
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        chirpSDK.stop();
+    }
+    private void readChirp(Chirp chirp)
+    {
+        /*------------------------------------------------------------------------------
+         * ChirpSDK.read queries the Chirp API for extended data associated with a
+         * given chirp. It requires an internet connection.
+         *----------------------------------------------------------------------------*/
+        chirpSDK.read(chirp, new CallbackRead()
+        {
+            /*------------------------------------------------------------------------------
+             * The associated data is a single JSON structured object of key-value pairs.
+             * You can define arbitrary nested data structure within this.
+             * Here, we simply retrieve the "text" key.
+             *----------------------------------------------------------------------------*/
+            @Override
+            public void onReadResponse(final Chirp chirp)
+            {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        final String receivedText;
+                        try {
+                            receivedText = (String) chirp.getJsonData().get("text");
+                            result.setText(receivedText);
+                            if(Url_check(receivedText)){
+                                openUrlInChrome(receivedText);
+                            }
+                            else {
+                                Toast.makeText(context,"Not a link",Toast.LENGTH_LONG);
+
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+
+                    }
+                });
+                Log.d(TAG, "onReadResponse: ");
+            }
+
+            /*------------------------------------------------------------------------------
+             * If an error occurs contacting the Chirp API, generate an error.
+             *----------------------------------------------------------------------------*/
+            @Override
+            public void onReadError(ChirpError chirpError) {
+                try{
+                    /*runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(MainActivity.this, "Error reading Chirp", Toast.LENGTH_SHORT).show();
+                        }
+                    });*/
+
+                    Log.d(TAG, "onReadError: " + chirpError.getMessage());
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
     void openUrlInChrome(String url) {
        /* Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(url));
@@ -75,4 +267,22 @@ public class MainActivity extends AppCompatActivity {
             startActivity(i);
         }
     }
+    boolean Url_check(String s){
+        if (!s.contains("http://"))
+            s= "http://" + s;
+
+        URL url=null;
+        try {
+            url = new URL(s);
+        } catch (MalformedURLException e) {
+            Log.v("myApp", "bad url entered");
+        }
+        if (url == null)
+            return false;
+        else
+            return true;
+    }
 }
+
+
+
