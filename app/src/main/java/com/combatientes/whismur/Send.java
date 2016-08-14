@@ -82,21 +82,31 @@ public class Send extends AppCompatActivity {
                     }
                 });
                 chirpSDK.start();
+                try {
+                    Thread.sleep(4000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        rippleBackground.stopRippleAnimation();
+                    }
+                });
                 Log.d(TAG, "onCreateResponse: " + chirp.getIdentifier());
+                finish();
             }
 
-            /*------------------------------------------------------------------------------
-             * If a network error occurred whilst creating the chirp, generate an error.
-             *----------------------------------------------------------------------------*/
             @Override
             public void onCreateError(ChirpError chirpError) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(context, "Error creating Chirp", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Error encoding data, Try again", Toast.LENGTH_SHORT).show();
                     }
                 });
                 Log.d(TAG, "onCreateError: " + chirpError.getMessage());
+                finish();
             }
         });
 
