@@ -18,11 +18,11 @@ public class FSKConfig {
 
 	public static final int SOFT_MODEM_MODE_4 = 4;
 //	public static final int SOFT_MODEM_MODE_4_BAUD_RATE = 1225;
-	public static final int SOFT_MODEM_MODE_4_BAUD_RATE = 980;
+	public static final int SOFT_MODEM_MODE_4_BAUD_RATE = 1225;
 //	public static final int SOFT_MODEM_MODE_4_LOW_FREQ = 4900;
 	public static final int SOFT_MODEM_MODE_4_LOW_FREQ = 4900;
 //	public static final int SOFT_MODEM_MODE_4_HIGH_FREQ = 7350;
-	public static final int SOFT_MODEM_MODE_4_HIGH_FREQ = 7790;
+	public static final int SOFT_MODEM_MODE_4_HIGH_FREQ = 7350;
 
 	public static final int SOFT_MODEM_MODE_5 = 5;
 	public static final int SOFT_MODEM_MODE_5_BAUD_RATE = 1470;

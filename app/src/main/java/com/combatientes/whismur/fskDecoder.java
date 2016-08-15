@@ -66,17 +66,17 @@ public class fskDecoder extends AppCompatActivity {
 
                         CharSequence received_till_now = view.getText()+text;
                         view.setText(received_till_now);
-                        if(((String)received_till_now).contains("----")) {
-                            String[] ans = ((String)received_till_now).split("----");
-                            if(readdata.size()==0||!readdata.contains(ans[0])){
-                                readdata.add(ans[0]);
-                                view.setText(ans[1]);
-                            } else if (readdata.contains(ans[0])){
-                                requiredtext = ans[0];
-                                gottext = true;
-                            }
-                            Toast.makeText(getApplicationContext(),ans[0]+" text consumed",Toast.LENGTH_SHORT).show();
-                        }
+//                        if(((String)recieved_till_now).contains("----")) {
+//                            String[] ans = ((String)received_till_now).split("----");
+//                            if(readdata.size()==0||!readdata.contains(ans[0])){
+//                                readdata.add(ans[0]);
+//                                view.setText(ans[1]);
+//                            } else if (readdata.contains(ans[0])){
+//                                requiredtext = ans[0];
+//                                gottext = true;
+//                            }
+//                            Toast.makeText(getApplicationContext(),ans[0]+" text consumed",Toast.LENGTH_SHORT).show();
+//                        }
                     }
                 });
             }
